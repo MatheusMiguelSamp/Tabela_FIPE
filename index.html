@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta FIPE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 16px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        select,
+        button {
+            padding: 8px 12px;
+            font-size: 1rem;
+            min-width: 260px;
+        }
+
+        button {
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+        button:disabled,
+        select:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        #status {
+            margin: 16px 0;
+            min-height: 24px;
+        }
+
+        /* Indicador de processamento (spinner) */
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-right: 8px;
+            border: 2px solid #ccc;
+            border-top-color: #333;
+            border-radius: 50%;
+            animation: girar 0.8s linear infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .erro {
+            color: #b00020;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #f3f3f3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚗 Consulta Tabela FIPE</h1>
+
+    <label for="tipo">Tipo de veículo</label>
+    <select id="tipo" onchange="filtrarMarcas()">
+        <option value="carros">Carros</option>
+        <option value="motos">Motos</option>
+        <option value="caminhoes">Caminhões</option>
+    </select>
+
+    <label for="marca">Marca</label>
+    <select id="marca" onchange="filtrarModelos()" disabled>
+        <option value="">Selecione a marca...</option>
+    </select>
+
+    <label for="modelo">Modelo</label>
+    <select id="modelo" onchange="filtrarAnos()" disabled>
+        <option value="">Selecione o modelo...</option>
+    </select>
+
+    <label for="ano">Ano</label>
+    <select id="ano" onchange="confirmarAno()" disabled>
+        <option value="">Selecione o ano...</option>
+    </select>
+
+    <div>
+        <button id="btnConsultar" onclick="buscarDetalhes()" disabled>Consultar preço</button>
+    </div>
+
+    <div id="status"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Ano</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+    </table>
+
+    <script src="fipeApi.js"></script>
+</body>
+
+</html>
